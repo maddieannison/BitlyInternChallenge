@@ -15,3 +15,5 @@ To do
 - Read from encodes.csv and append hash to url
 - Comparative logic to only print out if bitlink == encodes and timestamp == 2022?
 - Count number of clicks
+- README
+- Unit Testing
