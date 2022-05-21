@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EncodesReader {
     char COMMA_DELIMETER = ',';
-    ArrayList<String> urls = new ArrayList<>();
+    ArrayList<Encodes> encodesArrayList = new ArrayList<>();
 
     public void encodesReader() {
     }
@@ -20,16 +20,21 @@ public class EncodesReader {
             CSVParser parser = CSVFormat.DEFAULT.withDelimiter(COMMA_DELIMETER).withHeader().parse(br);
             {
                 for (CSVRecord record : parser) {
-                    urls.add("http://"+ record.get("domain") + "/" + record.get("hash"));
+                    encodesArrayList.add(new Encodes(record.get("long_url"), record.get("domain"), record.get("hash")));
                 }
             }
         }
     }
 
-    public ArrayList<String> getUrls (String fileName) throws IOException {
+    public ArrayList<Encodes> getEncodesArrayList(String fileName) throws IOException {
         readEFile(fileName);
-        return urls;
+        return encodesArrayList;
     }
+
+    //    public ArrayList<String> getUrls (String fileName) throws IOException {
+//        readEFile(fileName);
+//        return urls;
+//    }
 }
 
 
