@@ -17,14 +17,18 @@ public class ReaderManager {
      * @throws IOException
      */
     public ReaderManager() throws IOException {
-        run();
+    }
+
+    public ReaderManager(String efile, String dFile) {
+        this.eFile = eFile;
+        this.dFile = dFile;
     }
 
     /**
      * Main function for ReaderManager class. Includes comparative logic to find matching bitlinks & timestamps in decodes.json file.
      * @throws IOException
      */
-    private void run() throws IOException {
+    public void run() throws IOException {
         ArrayList<Output> outputs = new ArrayList<>();
 
         DecodesReader dr = new DecodesReader();
@@ -54,6 +58,7 @@ public class ReaderManager {
         }
         sort(outputs);
     }
+
 
     /**
      * Adds desired outputs to an ArrayList that will be sorted and converted to a JSONArray later.
