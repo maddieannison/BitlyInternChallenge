@@ -7,6 +7,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The DecodesReader uses the JSON Simple Library to parse the decodes.json file
+ * and creates an ArrayList of the decode objects
+ *
+ * @author Madeline Annnison
+ */
 public class DecodesReader {
     String fileName;
     int counter = 0;
@@ -18,9 +24,14 @@ public class DecodesReader {
      */
     public DecodesReader(){}
 
+    /**
+     * Reads the json file and creates an ArrayList.
+     * @param fileName name of the file to be parsed
+     * @throws FileNotFoundException
+     */
     public void readFile(String fileName) throws FileNotFoundException {
         JSONParser jsonParser = new JSONParser();
-        String line = null;
+
         JSONArray decodesList = null;
         ArrayList<Object> decodes = null;
         try {
@@ -31,7 +42,6 @@ public class DecodesReader {
 
             //Iterate over array
             decodesList.forEach(dec -> parseDecObj((JSONObject) dec));
-//            System.out.println(decodesList);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -42,6 +52,10 @@ public class DecodesReader {
         }
     }
 
+    /**
+     * Parses the decode line to find desired information
+     * @param dec the decode object to be added to the ArrayList
+     */
     private void parseDecObj(JSONObject dec) {
     //get bitlink, get timestamp
         String bitlink = (String) dec.get("bitlink");
@@ -52,6 +66,11 @@ public class DecodesReader {
         decodesArrayList.add(decode);
     }
 
+    /**
+     * @param fileName the name of the file to be parse
+     * @return the ArrayList of Decodes
+     * @throws FileNotFoundException
+     */
     public ArrayList<Decodes> getDecodeArrayList (String fileName) throws FileNotFoundException {
         readFile(fileName);
         return decodesArrayList;
