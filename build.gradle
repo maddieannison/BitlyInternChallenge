@@ -1,18 +1,28 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+mainClassName = 'src/main/java/Start.java'
+compileJava.options.encoding = 'UTF-8'
+
+
+
+
+
+//group 'org.example'
+//version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation 'org.apache.commons:commons-csv:1.9.0'
 }
 
 test {

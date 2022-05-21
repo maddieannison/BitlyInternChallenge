@@ -10,10 +10,12 @@
 
 Status
 - Parses decodes.json and prints out contents, and also only bitlinks and timestamps
+- Reads from encodes.csv and append hash to url
+
 
 To do
-- Read from encodes.csv and append hash to url
-- Comparative logic to only print out if bitlink == encodes and timestamp == 2022?
-- Count number of clicks
+- Add to JSONArray(?) and sort in descending order
+- Print to console
 - README
 - Unit Testing
+
