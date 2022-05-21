@@ -3,10 +3,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DecodesReader {
+    String fileName;
     int counter = 0;
+//    HashMap<String, String> decodes = new HashMap<>();
+    ArrayList<Decodes> decodesArrayList = new ArrayList<>();
 
     /**
      * Default constructor for DecodesReader.
@@ -26,7 +31,7 @@ public class DecodesReader {
 
             //Iterate over array
             decodesList.forEach(dec -> parseDecObj((JSONObject) dec));
-            System.out.println(decodesList);
+//            System.out.println(decodesList);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,11 +42,17 @@ public class DecodesReader {
         }
     }
 
-    private static void parseDecObj(JSONObject dec) {
+    private void parseDecObj(JSONObject dec) {
     //get bitlink, get timestamp
         String bitlink = (String) dec.get("bitlink");
         String timestamp = (String) dec.get("timestamp");
+        Decodes decode = new Decodes(bitlink, timestamp);
+        decodesArrayList.add(decode);
     }
+
+    public ArrayList<Decodes> getDecodeArrayList () {
+        return decodesArrayList;
+}
 
 
 
