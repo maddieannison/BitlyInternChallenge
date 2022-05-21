@@ -45,12 +45,15 @@ public class DecodesReader {
     private void parseDecObj(JSONObject dec) {
     //get bitlink, get timestamp
         String bitlink = (String) dec.get("bitlink");
+        bitlink = bitlink.trim();
         String timestamp = (String) dec.get("timestamp");
+        timestamp = timestamp.trim();
         Decodes decode = new Decodes(bitlink, timestamp);
         decodesArrayList.add(decode);
     }
 
-    public ArrayList<Decodes> getDecodeArrayList () {
+    public ArrayList<Decodes> getDecodeArrayList (String fileName) throws FileNotFoundException {
+        readFile(fileName);
         return decodesArrayList;
 }
 

@@ -1,73 +1,79 @@
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class ReaderManager {
     int count = 0;
+    String clickCount;
 
     String eFile = "encodes.csv";
     String dFile = "decodes.json";
 
-    DecodesReader dr = new DecodesReader();
-    EncodesReader er = new EncodesReader();
-    JSONArray jsonArray;
-    List<JSONArray> sortedJsonArray;
-    JSONObject jsonObject;
-    JSONObject sortedJsonObject;
-
-
-
 
     public ReaderManager() throws IOException {
-        jsonArray = new JSONArray();
-        jsonObject = new JSONObject();
-        sortedJsonObject = new JSONObject();
-        sortedJsonArray = new ArrayList<>();
-        compareEAndD();
-        print();
+        run();
     }
 
-    private void compareEAndD() throws IOException {
-        ArrayList<Encodes> encodesArrayList = er.getEncodesArrayList(eFile);
-        dr.readFile(dFile);
-        ArrayList<Decodes> decodesArrayList = dr.getDecodeArrayList();
+    private void run() throws IOException {
+        ArrayList<Output> outputs = new ArrayList<>();
+        ArrayList<Output> test = new ArrayList<>();
 
-//        for (int i = 0; i < decodesArrayList.size(); i++) {
-//            System.out.println(decodesArrayList.get(i).getTimestamp());
+        DecodesReader dr = new DecodesReader();
+        EncodesReader er = new EncodesReader();
+
+        ArrayList<Encodes> encodesArrayList = er.getEncodesArrayList(eFile);
+        ArrayList<Decodes> decodesArrayList = dr.getDecodeArrayList(dFile);
+
+//        for (int i  = 0; i < encodesArrayList.size(); i++) {
+//            System.out.println(encodesArrayList.get(i).toURL());
+//            addOutput(test, encodesArrayList.get(i).getLong_url(), clickCount);
 //        }
 
+
+
+
+        //Iterate through array lists
         for (int i = 0; i < encodesArrayList.size(); i++) {
             for (int j = 0; j < decodesArrayList.size(); j++) {
                 //Check for same bitlink
-                if (("http://" + encodesArrayList.get(i).getDomain() + "/" + encodesArrayList.get(i).getHash()).equals(decodesArrayList.get(i).getBitlink())) {
+                if ((encodesArrayList.get(i).toURL().equals(decodesArrayList.get(j).getBitlink()))) {
                     //Check for correct timestamp
-                    if (decodesArrayList.get(i).getTimestamp().substring(0,4).equals("2021")){
+                    if (decodesArrayList.get(i).getTimestamp().startsWith("2021")){
                         //Increment click count
                         count++;
                     }
-                    //Add the long_url and click count to a JSON array
-                addToJSONArray(encodesArrayList.get(i).getLong_url(), count);
                 }
             }
+            //Convert count int to count string
+            clickCount = Integer.toString(count);
+            //Add the long_url and click count to a JSON array
+            addOutput(outputs, encodesArrayList.get(i).getLong_url(), clickCount);
             //Reset the click count
             count = 0;
         }
+        sort(outputs);
     }
 
-    private void addToJSONArray(String long_url, int count) {
-        jsonArray.add(long_url);
-        jsonArray.add(count);
-        jsonObject.put(jsonArray, null);
+    private void addOutput(ArrayList<Output> outputs, String long_url, String count) {
+        outputs.add(new Output(long_url, count));
     }
 
-    private void print() {
-        System.out.println(jsonObject);
+    private void sort(ArrayList<Output> outputs) {
+        Collections.sort(outputs, Comparator.comparing(Output::getCount));
+
+        outputToJSON(outputs);
     }
-    private void sortJSONObject() {
+
+    private void outputToJSON(ArrayList<Output> outputs) {
+        JSONArray jsonArray = new JSONArray();
+        for (Output output : outputs) {
+            jsonArray.add(output.toJSON());
+//            System.out.println(output.toJSON());
+        }
+        System.out.println(jsonArray);
     }
+
+
 }

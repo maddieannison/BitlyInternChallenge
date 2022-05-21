@@ -12,7 +12,7 @@ public class Encodes {
         this.long_url = long_url;
         this.domain = domain;
         this.hash = hash;
-    }
+        }
 
 
     public void setLong_url (String long_url) {
@@ -20,7 +20,7 @@ public class Encodes {
     }
 
     public String getLong_url() {
-        return long_url;
+        return long_url.trim();
     }
 
     public void setDomain(String domain) {
@@ -28,7 +28,7 @@ public class Encodes {
     }
 
     public String getDomain() {
-        return domain;
+        return domain.trim();
     }
 
     public void setHash(String hash) {
@@ -36,6 +36,11 @@ public class Encodes {
     }
 
     public String getHash() {
-        return hash;
+        return hash.trim();
+    }
+
+    public String toURL(){
+        String s;
+        return s = ("http://" + getDomain() + "/" + getHash());
     }
 }
